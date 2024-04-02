@@ -11,11 +11,11 @@ ui <- page_fillable(
   h1(paste0("The next Sauna will be Thursday, ", get_next_thursday(), " at 8:00 PM")),
   layout_columns(
     card(
-      card_header("Who's coming?"), tableOutput("attendees")),
-    card(
       card_header("Book your spot!"),
       uiOutput("sign_up")
-    )
+    ),
+    card(
+      card_header("This week's sweaters"), tableOutput("attendees")),
   )
 )
 
@@ -26,10 +26,10 @@ server <- function(input, output, session) {
   
   output$sign_up = renderUI({
     if(meta$sauna_on == 0){
-      return(h1("Sauna is cancelled this week"))
+      return(h3("Sorry the Sauna is cancelled this week"))
     }
     if (nrow(attendees()) >= meta$max_seats) {
-      return(h1("Sauna is all full"))
+      return(h1("Sauna is all full this week, check back next week!"))
     }
     return(tagList(
       textInput("name", "Name"),
